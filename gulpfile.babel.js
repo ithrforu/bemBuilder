@@ -8,6 +8,7 @@ import rename from 'gulp-rename';
 import concat from 'gulp-concat';
 import skip from 'gulp-noop';
 import del from 'del';
+import merge from 'gulp-merge';
 import browserSync from 'browser-sync';
 import ghPages from 'gulp-gh-pages';
 
@@ -61,7 +62,7 @@ const bundleJs = () => {
         bundle.src('js', {read: false})
           .pipe( tap(file => {
             file.contents = browserify(file.path, {debug: !config.isProd})
-              .transform("babelify", {presets: ["@babel/preset-env"]})
+              .transform('babelify', {presets: ['@babel/preset-env']})
               .bundle()
           }) )
           .pipe( gulpBuffer() )
@@ -100,11 +101,11 @@ const convertStyles = () => {
     grid: true
   };
 
-  return gulp.src(`${config.src.scssPagesFiles}`, {sourcemaps: !config.isProd})
+  return gulp.src(config.src.scssPagesFiles, {sourcemaps: !config.isProd})
     .pipe( sass(scssOptions) )
     .pipe( autoprefixer(prefixOptions) )
     .pipe( rename((path) => path.basename += '.min') )
-    .pipe( gulp.dest(`${config.dest.css}`, {sourcemaps: '.'}) )
+    .pipe( gulp.dest(config.dest.css, {sourcemaps: '.'}) )
     .pipe( browserSync.stream() );
 };
 
@@ -115,16 +116,16 @@ const convertHtml = () => {
     removeComments: true,
   };
 
-  return gulp.src(`${config.src.htmlPagesFiles}`)
+  return gulp.src(config.src.htmlPagesFiles)
     .pipe( (config.isProd) ? htmlWebp() : skip() )
     .pipe( (config.isProd) ? htmlMin(minifySettings) : skip() )
     .pipe( rename({dirname: ''}) )
-    .pipe( gulp.dest(`${config.dest.root}`) )
+    .pipe( gulp.dest(config.dest.root) )
 };
 
 // If isProd then compress else copy
 const convertImages = () => {
-  del(`${config.dest.images}`);
+  del(config.dest.images);
 
   const compressSettings = [
     gifsicle({ interlaced: true }),
@@ -133,50 +134,50 @@ const convertImages = () => {
   ];
 
   if(config.isProd) {
-    gulp.src(`${config.src.imagesFiles}`)
+    gulp.src(config.src.imagesFiles)
       .pipe( webp({quality: 70}) )
       .pipe( rename({dirname: ''}) )
-      .pipe( gulp.dest(`${config.dest.images}`) );
+      .pipe( gulp.dest(config.dest.images) );
   }
 
-  return gulp.src(`${config.src.imagesFiles}`)
+  return gulp.src(config.src.imagesFiles)
     .pipe( (config.isProd) ? imagemin(compressSettings) : skip() )
     .pipe( rename({dirname: ''}) )
-    .pipe( gulp.dest(`${config.dest.images}`) )
+    .pipe( gulp.dest(config.dest.images) )
     .pipe( browserSync.stream() );
 };
 
 // If isProd then copy ttf & convert to woff/woff2 else copy ttf
 const convertFonts = () => {
-  del(`${config.dest.fonts}`);
+  del(config.dest.fonts);
 
   if(config.isProd) {
     // Copy ttf
-    gulp.src(`${config.src.fontsFiles}`)
+    gulp.src(config.src.fontsFiles)
       .pipe( rename({dirname: ''}) )
-      .pipe( gulp.dest(`${config.dest.fonts}`) )
+      .pipe( gulp.dest(config.dest.fonts) )
 
     // Convert ttf to woff
-    gulp.src(`${config.src.fontsFiles}`)
+    gulp.src(config.src.fontsFiles)
       .pipe( ttf2woff() )
       .pipe( rename({dirname: ''}) )
-      .pipe( gulp.dest(`${config.dest.fonts}`) )
+      .pipe( gulp.dest(config.dest.fonts) )
   }
 
   // If isProd then convert ttf to woff2
   // Else copy ttf
-  return gulp.src(`${config.src.fontsFiles}`)
+  return gulp.src(config.src.fontsFiles)
     .pipe( (config.isProd) ? ttf2woff2() : skip() )
     .pipe( rename({dirname: ''}) )
-    .pipe( gulp.dest(`${config.dest.fonts}`) )
+    .pipe( gulp.dest(config.dest.fonts) )
     .pipe( browserSync.stream() );
 };
 
 // Copy other assets from blocks (besides js and scss block's files)
 const copyAssets = () => {
-  return gulp.src(`${config.src.jsonFiles}`)
+  return gulp.src(config.src.jsonFiles)
     .pipe( rename({dirname: ''}) )
-    .pipe( gulp.dest(`${config.dest.assets}`) )
+    .pipe( gulp.dest(config.dest.assets) )
     .pipe( browserSync.stream() );
 };
 
@@ -187,22 +188,22 @@ const pages = () =>
 
 // Delete dist and scss bundle folders before other tasks
 const clean = () => {
-  del(`${config.src.scssBundles}`);
-  return del(`${config.dest.root}`);
+  del(config.src.scssBundles);
+  return del(config.dest.root);
 };
 
 const watching = () => {
-  gulp.watch(`${config.src.htmlPagesFiles}`, gulp.series(
+  gulp.watch(config.src.htmlPagesFiles, gulp.series(
     html2decl,
     buildBundle,
     convertHtml
   ));
-  gulp.watch(`${config.src.jsBlocksFiles}`, bundleJs);
-  gulp.watch(`${config.src.scssBlocksFiles}`, bundleScss);
-  gulp.watch(`${config.src.scssFiles}`, convertStyles);
-  gulp.watch(`${config.src.imagesFiles}`, convertImages);
-  gulp.watch(`${config.src.fontsFiles}`, convertFonts);
-  gulp.watch(`${config.src.jsonFiles}`, copyAssets);
+  gulp.watch(config.src.jsBlocksFiles, bundleJs);
+  gulp.watch(config.src.scssBlocksFiles, bundleScss);
+  gulp.watch(config.src.scssFiles, convertStyles);
+  gulp.watch(config.src.imagesFiles, convertImages);
+  gulp.watch(config.src.fontsFiles, convertFonts);
+  gulp.watch(config.src.jsonFiles, copyAssets);
 };
 
 const browserSyncer = () => {
@@ -210,7 +211,7 @@ const browserSyncer = () => {
     ui: false,
     notify: false,
     server: {
-      baseDir: `${config.dest.root}`,
+      baseDir: config.dest.root,
       watch: true
     }
   });
