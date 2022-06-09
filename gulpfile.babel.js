@@ -8,7 +8,6 @@ import rename from 'gulp-rename';
 import concat from 'gulp-concat';
 import skip from 'gulp-noop';
 import del from 'del';
-import merge from 'gulp-merge';
 import browserSync from 'browser-sync';
 import ghPages from 'gulp-gh-pages';
 
