@@ -1,0 +1,22 @@
+.block1 {
+  width: 200px;
+  height: 200px;
+  background-color: green;
+}
+.block1__top {
+  border: 5px solid rebeccapurple;
+}
+.block2 {
+  width: 400px;
+  height: 200px;
+  background-color: lightcoral;
+}
+@include fontFace('Joan', 'Joan-Regular', '400', 'normal');
+
+.block3 {
+  width: 300px;
+  height: 200px;
+  background-color: lightblue;
+  color: black;
+  font-family: 'Joan';
+}

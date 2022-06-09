@@ -1,0 +1,16 @@
+// Page import
+@import
+  'abstracts/variables',
+  'abstracts/breakpoints',
+  'abstracts/mixins';
+
+@import
+  'base/normalize';
+
+// Page typography
+@include fontFace('Arial', 'arial-italic', '400', 'normal');
+@include fontFace('Kdam', 'KdamThmorPro-Regular', '400', 'normal');
+
+html {
+  font: 42px / 110% 'Kdam';
+}

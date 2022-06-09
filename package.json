@@ -1,0 +1,58 @@
+{
+  "type": "module",
+  "name": "bem-bundle-builder",
+  "version": "1.0.0",
+  "description": "try to bundle project with gulp and bem",
+  "author": "Vova",
+  "license": "ISC",
+  "lint-staged": {
+    "*.js": "eslint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/eslint-parser": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/register": "^7.17.7",
+    "babelify": "^10.0.0",
+    "browser-sync": "^2.27.10",
+    "browserify": "^17.0.0",
+    "del": "^6.1.1",
+    "eslint": "^8.17.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-bem-bundle-builder": "^0.1.5",
+    "gulp-bem-bundler-fs": "^0.0.10",
+    "gulp-browserify": "^0.5.1",
+    "gulp-buffer": "^0.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-debug": "^4.0.0",
+    "gulp-gh-pages": "^0.5.4",
+    "gulp-html2bemjson": "^1.0.3",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-imagemin": "^8.0.0",
+    "gulp-noop": "^1.0.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-svg-sprite": "^1.5.0",
+    "gulp-tap": "^2.0.0",
+    "gulp-terser": "^2.1.0",
+    "gulp-ttf2woff": "^1.1.1",
+    "gulp-ttf2woff2": "^4.0.1",
+    "gulp-webp": "^4.0.1",
+    "gulp-webp-html": "^1.0.2",
+    "husky": "^4.3.8",
+    "lint-staged": "^13.0.0",
+    "sass": "^1.52.2",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
+  }
+}

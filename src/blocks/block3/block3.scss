@@ -1,0 +1,9 @@
+@include fontFace('Joan', 'Joan-Regular', '400', 'normal');
+
+.block3 {
+  width: 300px;
+  height: 200px;
+  background-color: lightblue;
+  color: black;
+  font-family: 'Joan';
+}
