@@ -60,12 +60,12 @@ const bundleJs = () => {
       js: bundle =>
         bundle.src('js', {read: false})
           .pipe( tap(file => {
-            file.contents = browserify(file.path, {debug: config.isProd})
+            file.contents = browserify(file.path, {debug: !config.isProd})
               .transform("babelify", {presets: ["@babel/preset-env"]})
               .bundle()
           }) )
           .pipe( gulpBuffer() )
-          .pipe( (!config.isProd) ? sourcemaps.init({loadMaps: config.isProd}) : skip() )
+          .pipe( (!config.isProd) ? sourcemaps.init({loadMaps: !config.isProd}) : skip() )
           .pipe( concat(bundle.name + '.min.js', {newLine: ';'}) )
           .pipe( (config.isProd) ? terser() : skip() )
           .pipe( (!config.isProd) ? sourcemaps.write('.') : skip() )
