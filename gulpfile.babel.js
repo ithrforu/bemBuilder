@@ -35,7 +35,6 @@ import htmlWebp from 'gulp-webp-html';
 // Assets
 import imagemin, {gifsicle, mozjpeg, optipng, svgo} from 'gulp-imagemin';
 import webp from 'gulp-webp';
-import spriteSvg from 'gulp-svg-sprite';
 import ttf2woff from 'gulp-ttf2woff';
 import ttf2woff2 from 'gulp-ttf2woff2';
 
