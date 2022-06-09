@@ -7,7 +7,6 @@ import sourcemaps from 'gulp-sourcemaps';
 import rename from 'gulp-rename';
 import concat from 'gulp-concat';
 import skip from 'gulp-noop';
-import debug from 'gulp-debug';
 import del from 'del';
 import browserSync from 'browser-sync';
 import ghPages from 'gulp-gh-pages';
@@ -19,13 +18,9 @@ import html2bemjson from 'gulp-html2bemjson';
 
 // Scripts
 import terser from 'gulp-terser';
-import babel from 'gulp-babel';
-// import browserify from 'gulp-browserify';
 import browserify from 'browserify';
-import babelify from 'babelify';
-
 import tap from 'gulp-tap';
-import GulpBuffer from 'gulp-buffer';
+import gulpBuffer from 'gulp-buffer';
 
 // Styles
 import autoprefixer from 'gulp-autoprefixer';
@@ -43,7 +38,6 @@ import webp from 'gulp-webp';
 import spriteSvg from 'gulp-svg-sprite';
 import ttf2woff from 'gulp-ttf2woff';
 import ttf2woff2 from 'gulp-ttf2woff2';
-import gulpBuffer from 'gulp-buffer';
 
 // Tasks
 // Html to bemjson
