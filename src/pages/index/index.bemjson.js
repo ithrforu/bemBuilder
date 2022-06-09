@@ -93,10 +93,6 @@
           },
           {
             tag: 'script',
-            content: 'var exports = {}'
-          },
-          {
-            tag: 'script',
             attrs: {
               src: 'js/index.min.js'
             }
