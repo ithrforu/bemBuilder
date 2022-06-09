@@ -147,13 +147,6 @@ const convertImages = () => {
     .pipe( browserSync.stream() );
 };
 
-export const makeSprite = () => {
-  return gulp.src(`${config.src.svgFiles}`)
-    .pipe( spriteSvg() )
-    .pipe( gulp.dest(`${config.dest.images}`) )
-    .pipe( debug() );
-}
-
 // If isProd then copy ttf & convert to woff/woff2 else copy ttf
 const convertFonts = () => {
   del(`${config.dest.fonts}`);
