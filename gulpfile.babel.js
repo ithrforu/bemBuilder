@@ -42,17 +42,14 @@ import ttf2woff2 from 'gulp-ttf2woff2';
 // Tasks
 // Html to bemjson
 export const html2decl = () => {
-    return gulp.src(`${config.src.htmlPagesFiles}`)
+    return gulp.src(config.src.htmlPagesFiles)
       .pipe(html2bemjson())
-      .pipe(gulp.dest(`${config.src.pages}`));
+      .pipe(gulp.dest(config.src.pages));
   };
 
 // Bem bundle
 const builder = bundleBuilder({
-  levels: [`${config.src.blocks}`],
-  techMap: {
-    images: ['jpg', 'png', 'gif', 'svg'],
-  }
+  levels: [config.src.blocks],
 });
 
 const bundleJs = () => {
