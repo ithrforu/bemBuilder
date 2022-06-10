@@ -3,6 +3,7 @@ import config from './gulp/config.js';
 config.setBuildMode(); // dev or prod
 
 // Tools
+import merge from 'merge-stream';
 import sourcemaps from 'gulp-sourcemaps';
 import rename from 'gulp-rename';
 import concat from 'gulp-concat';
@@ -74,20 +75,7 @@ const bundleJs = () => {
     .pipe( browserSync.stream() );
 };
 
-const bundleScss = () => {
-  return bundlerFs(`${config.src.pages}/*`)
-    .pipe( builder({
-      scss: bundle => 
-        bundle.src('scss')
-          .pipe( (!config.isProd) ? sourcemaps.init() : skip() )
-          .pipe( concat('_' + bundle.name + '.bundle.scss' ) )
-          .pipe( gulp.dest(`${config.src.scssBundles}`) )
-    }) )
-};
-
-const buildBundle = gulp.parallel(bundleJs, bundleScss);
-
-const convertStyles = () => {
+export const bundleScss = () => {
   const scssOptions = {
     outputStyle: (config.isProd) ? 'compressed' : 'expanded',
     indentType: 'space',
@@ -100,13 +88,25 @@ const convertStyles = () => {
     grid: true
   };
 
-  return gulp.src(config.src.scssPagesFiles, {sourcemaps: !config.isProd})
-    .pipe( sass(scssOptions) )
-    .pipe( autoprefixer(prefixOptions) )
-    .pipe( rename((path) => path.basename += '.min') )
-    .pipe( gulp.dest(config.dest.css, {sourcemaps: '.'}) )
+  return bundlerFs(`${config.src.pages}/*`)
+    .pipe( builder({
+      scss: bundle => 
+         merge( 
+          gulp.src('src/scss/main.scss'),
+          bundle.src('scss')
+          )
+            .pipe( (!config.isProd) ? sourcemaps.init() : skip() )
+            .pipe( concat(bundle.name) )
+            .pipe( sass(scssOptions) )
+            .pipe( autoprefixer(prefixOptions) )
+            .pipe( rename((path) => path.basename += '.min') )
+            .pipe( (!config.isProd) ? sourcemaps.write('.') : skip() )
+            .pipe( gulp.dest(`${config.dest.css}`) )
+    }) )
     .pipe( browserSync.stream() );
 };
+
+const buildBundle = gulp.parallel(bundleJs, bundleScss);
 
 // If isProd then minify + webp else copy
 const convertHtml = () => {
@@ -198,8 +198,10 @@ const watching = () => {
     convertHtml
   ));
   gulp.watch(config.src.jsBlocksFiles, bundleJs);
-  gulp.watch(config.src.scssBlocksFiles, bundleScss);
-  gulp.watch(config.src.scssFiles, convertStyles);
+  gulp.watch([
+    config.src.scssBlocksFiles,
+    config.src.scssFiles,
+  ], bundleScss);
   gulp.watch(config.src.imagesFiles, convertImages);
   gulp.watch(config.src.fontsFiles, convertFonts);
   gulp.watch(config.src.jsonFiles, copyAssets);
@@ -221,10 +223,7 @@ export const dev = gulp.series(
   clean,
   html2decl,
   buildBundle,
-  gulp.parallel(
-    convertStyles,
-    convertHtml
-  ),
+  convertHtml,
   gulp.parallel(
     convertImages,
     convertFonts,
@@ -240,10 +239,7 @@ export const prod = gulp.series(
   clean,
   html2decl,
   buildBundle,
-  gulp.parallel(
-    convertStyles,
-    convertHtml
-  ),
+  convertHtml,
   gulp.parallel(
     convertImages,
     convertFonts,
