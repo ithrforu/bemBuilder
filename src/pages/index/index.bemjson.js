@@ -65,23 +65,24 @@
         ]
       },
       {
+        block: 'page',
         tag: 'body',
         content: [
           {
             block: 'block1',
             content: [
               {
-                block: 'block',
+                elem: 'top',
+                content: 'Hello :)'
+              },
+              {
                 elem: 'image',
                 tag: 'img',
                 attrs: {
-                  src: 'assets/images/cat.png',
+                  src: 'assets/images/dog.png',
                   alt: 'Cute cat',
                   title: 'This is cat'
                 }
-              },
-              {
-                elem: 'top'
               }
             ]
           },
