@@ -1,6 +1,5 @@
 import gulp from 'gulp';
 import config from './gulp/config.js';
-config.setBuildMode(); // dev or prod
 
 // Tools
 import merge from 'merge-stream';
@@ -38,6 +37,9 @@ import imagemin, {gifsicle, mozjpeg, optipng, svgo} from 'gulp-imagemin';
 import webp from 'gulp-webp';
 import ttf2woff from 'gulp-ttf2woff';
 import ttf2woff2 from 'gulp-ttf2woff2';
+
+// Set build mode (dev or prod)
+config.setBuildMode();
 
 // Tasks
 // Html to bemjson
