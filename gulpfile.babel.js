@@ -75,7 +75,7 @@ const bundleJs = () => {
     .pipe( browserSync.stream() );
 };
 
-export const bundleScss = () => {
+const bundleScss = () => {
   const scssOptions = {
     outputStyle: (config.isProd) ? 'compressed' : 'expanded',
     indentType: 'space',
