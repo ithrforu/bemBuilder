@@ -118,7 +118,7 @@ const convertHtml = () => {
     .pipe( (config.isProd) ? htmlWebp() : skip() )
     .pipe( (config.isProd) ? htmlMin(minifySettings) : skip() )
     .pipe( rename({dirname: ''}) )
-    .pipe( gulp.dest(config.dest.root) )
+    .pipe( gulp.dest(config.dest.root) );
 };
 
 // If isProd then compress else copy
@@ -128,7 +128,7 @@ const convertImages = () => {
   const compressSettings = [
     gifsicle({ interlaced: true }),
     mozjpeg({ quality: 75, progressive: true }),
-    optipng({ optimizationLevel: 5 })
+    optipng({ optimizationLevel: 5 }),
   ];
 
   if(config.isProd) {
@@ -153,13 +153,13 @@ const convertFonts = () => {
     // Copy ttf
     gulp.src(config.src.fontsFiles)
       .pipe( rename({dirname: ''}) )
-      .pipe( gulp.dest(config.dest.fonts) )
+      .pipe( gulp.dest(config.dest.fonts) );
 
     // Convert ttf to woff
     gulp.src(config.src.fontsFiles)
       .pipe( ttf2woff() )
       .pipe( rename({dirname: ''}) )
-      .pipe( gulp.dest(config.dest.fonts) )
+      .pipe( gulp.dest(config.dest.fonts) );
   }
 
   // If isProd then convert ttf to woff2
